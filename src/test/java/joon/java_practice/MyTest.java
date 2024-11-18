@@ -163,4 +163,26 @@ public class MyTest {
         Assertions.assertThat(List.of("a", "b", "c").size()).isEqualTo(3);
 
     }
+
+    @Test
+    void typeTest(){
+        int n = 100;
+        String s = "Hello";
+        System.out.println(s.length());
+    }
+
+    @Test
+    void object() {
+        String s = "Hello";
+        assertThat(s.length()).isEqualTo(5);
+        assertThat(s.equals("Hello")).isTrue();
+        assertThat(s.charAt(2)).isEqualTo('l');
+        assertThat(s.toLowerCase()).isEqualTo("hello");
+        assertThat(s.toUpperCase()).isEqualTo("HELLO");
+        assertThat(s.contains("ll")).isTrue();
+        assertThat(s.startsWith("He")).isTrue();
+        assertThat(s.endsWith("o")).isTrue();
+        assertThat(s.indexOf("o")).isEqualTo(4);
+        assertThat(s.concat(" World")).isEqualTo("Hello World");
+    }
 }
