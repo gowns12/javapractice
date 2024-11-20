@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -256,15 +257,14 @@ public class MyTest {
         if (passWord.length() >= 8 && passWord.contains("!") || passWord.contains("@") || passWord.contains("#") || passWord.contains("$") || passWord.contains("%") || passWord.contains("^") || passWord.contains("&") || passWord.contains("*") || passWord.contains("(") || passWord.contains(")")) {
             int count = 0;
             for (int i = 0; i < passWord.length(); i++) {
-                if(Character.isUpperCase(passWord.charAt(i))){
+                if (Character.isUpperCase(passWord.charAt(i))) {
                     count++;
                 }
             }
-            if (count==0){
-                answer=false;
+            if (count == 0) {
+                answer = false;
             }
-        }
-        else {
+        } else {
             answer = false;
         }
         return answer;
@@ -297,12 +297,72 @@ public class MyTest {
         assertThat(extractDomain("https://www.google.com/search?q=java")).isEqualTo("www.google.com");
         assertThat(extractDomain("https://www.op.gg/modes/aram/teemo/build?region=global&tier=all")).isEqualTo("www.op.gg");
 
-      
+
         assertThat(passWordCheck("1qdA24@@")).isTrue();
         assertThat(passWordCheck("123$saDsd")).isTrue();
         assertThat(passWordCheck("asdw2")).isFalse();
         assertThat(passWordCheck("asda1232")).isFalse();
     }
 
+    /**
+     * 다음 도형들의 면적을 계산하는 메서드를 오버로딩하여 구현하세요:
+     * 1. 정사각형
+     * 2. 직사각형
+     * 3. 원
+     *
+     * @param side 정사각형의 한 변의 길이
+     * @return 정사각형의 면적
+     */
+    double calculateArea(double side) {
+        // TODO: 정사각형 면적 계산 로직을 구현하세요.
+        return Math.pow(side,2);
+    }
 
+    /**
+     * @param length 직사각형의 길이
+     * @param width 직사각형의 너비
+     * @return 직사각형의 면적
+     */
+    double calculateArea(double length, double width) {
+        // TODO: 직사각형 면적 계산 로직을 구현하세요.
+        return length*width;
+    }
+
+    /**
+     * @param radius 원의 반지름
+     * @return 원의 면적
+     */
+    double calculateArea(double radius, boolean isCircle) {
+        // TODO: 원의 면적 계산 로직을 구현하세요. isCircle 매개변수는 오버로딩을 위해 사용됩니다.
+        return Math.PI*Math.pow(radius,2);
+    }
+
+    @Test
+    void areaCalculator() {
+        assertThat(calculateArea(2)).isEqualTo(4);
+        assertThat(calculateArea(2,4)).isEqualTo(8);
+        assertThat(calculateArea(2,true)).isEqualTo(Math.PI*4);
+    }
+
+    @Test
+    void ListCrud() {
+        ArrayList<String> 광역시목록 = new ArrayList<>();
+        광역시목록.add("대전");
+        광역시목록.add("일산");
+        광역시목록.add("광주");
+        광역시목록.add("울산");
+
+        System.out.println(광역시목록.size());
+
+        광역시목록.set(2,"전라도 광주");
+        광역시목록.remove(1);
+
+        ArrayList<String> 광역시목록2;
+        광역시목록2 = 광역시목록;
+        for (int i = 0; i < 광역시목록.size(); i++) {
+            광역시목록2.set(i,광역시목록.get(i)+"광역시");
+        }
+
+        System.out.println(광역시목록2);
+    }
 }
