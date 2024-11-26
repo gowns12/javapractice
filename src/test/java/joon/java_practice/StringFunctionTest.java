@@ -164,6 +164,7 @@ public class StringFunctionTest {
         assertThat(calculateRanks(List.of())).isEqualTo(List.of());
     }
 
+
     int getSum(List<Integer> list) {
         int sum = 0;
         for (Integer i : list) {
@@ -203,7 +204,8 @@ public class StringFunctionTest {
 
     List<Integer> filterPositive(List<Integer> lsit) {
         Stream<Integer> answer = lsit.stream();
-        return answer.filter(i -> i % 2 == 0 && i > 0).toList();
+        return answer.filter(i -> i % 2 == 0 && i > 0)
+                .toList();
     }
 
     List<Integer> findPassedStudents(List<Integer> scores) {
@@ -216,22 +218,33 @@ public class StringFunctionTest {
         return answer.distinct().toList();
     }
 
+//    List<Integer> calculateRanks(List<Integer> scores) {
+//        List<Integer> ranking = scores.stream().sorted().toList();
+//        List<Integer> answer = new ArrayList<>(List.of());
+//        for (Integer i : scores) {
+//            for (Integer j : ranking) {
+//                if (i == j) {
+//                    answer.add(ranking.size() - ranking.lastIndexOf(i));
+//                    break;
+//                }
+//            }
+//        }
+//        return answer;
+
+//    }
+
     List<Integer> calculateRanks(List<Integer> scores) {
-        List<Integer> ranking = scores.stream().sorted().toList();
-        List<Integer> answer = new ArrayList<>(List.of());
+        List<Integer> rankings = new ArrayList<>(List.of());
         for (Integer i : scores) {
-            for (Integer j : ranking) {
-                if (i == j) {
-                    answer.add(ranking.size() - ranking.lastIndexOf(i));
-                    break;
+            int biggerCount = 0;
+            for (Integer j : scores) {
+                if (i < j) {
+                    biggerCount++;
                 }
             }
+            rankings.add(biggerCount + 1);
         }
-        return answer;
-    }
-
-    int calculateTotalPrice(List<Integer> priceList) {
-        return getSum(priceList);
+        return rankings;
     }
 
     @Test
@@ -250,12 +263,12 @@ public class StringFunctionTest {
 
     }
 
+    int calculateTotalPrice(List<Integer> priceList) {
+        return getSum(priceList);
+    }
+
     List<Integer> applyDiscount(List<Integer> priceList, double discountRate) {
-        List<Integer> answer = new ArrayList<>();
-        for (Integer i : priceList) {
-            answer.add((int) Math.round(i * (1 - discountRate / 100)));
-        }
-        return answer;
+        return priceList.stream().map(price -> (int) Math.round(price * (1 - discountRate / 100))).toList();
     }
 
     List<Integer> filterExpensiveItems(List<Integer> priceList, int standardPrice) {
