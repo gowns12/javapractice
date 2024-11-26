@@ -175,7 +175,7 @@ public class StringFunctionTest {
 
     double getAverage(List<Integer> list) {
         int sum = getSum(list);
-        return list.isEmpty() ? 0 : (double) sum / (double) list.size();
+        return list.isEmpty() ? 0 : (double) sum / list.size();
     }
 
     int findMax(List<Integer> list) {
@@ -203,19 +203,19 @@ public class StringFunctionTest {
     }
 
     List<Integer> filterPositive(List<Integer> lsit) {
-        Stream<Integer> answer = lsit.stream();
-        return answer.filter(i -> i % 2 == 0 && i > 0)
+
+        return lsit.stream().filter(i -> i % 2 == 0 && i > 0)
                 .toList();
     }
 
     List<Integer> findPassedStudents(List<Integer> scores) {
-        Stream<Integer> answer = scores.stream();
-        return answer.filter(i -> i >= 80).toList();
+        return scores.stream()
+                .filter(i -> i >= 80)
+                .toList();
     }
 
     List<Integer> removeDuplicates(List<Integer> numbers) {
-        Stream<Integer> answer = numbers.stream();
-        return answer.distinct().toList();
+        return numbers.stream().distinct().toList();
     }
 
 //    List<Integer> calculateRanks(List<Integer> scores) {
@@ -268,12 +268,13 @@ public class StringFunctionTest {
     }
 
     List<Integer> applyDiscount(List<Integer> priceList, double discountRate) {
-        return priceList.stream().map(price -> (int) Math.round(price * (1 - discountRate / 100))).toList();
+        return priceList.stream()
+                .map(price -> (int) Math.round(price * (1 - discountRate / 100)))
+                .toList();
     }
 
     List<Integer> filterExpensiveItems(List<Integer> priceList, int standardPrice) {
-        Stream<Integer> answer = priceList.stream();
-        return answer.filter(i -> i >= standardPrice).toList();
+        return priceList.stream().filter(i -> i >= standardPrice).toList();
     }
 }
 
