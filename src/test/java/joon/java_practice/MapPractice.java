@@ -349,21 +349,21 @@ public class MapPractice {
         assertThat(잔나비존재여부).isFalse();
     }
 
-//    List<Integer> getCommonElements(List<Integer> integers1, List<Integer> integers2) {
-//        List<Integer> commonElements = new ArrayList<>(List.of());
-//
-//        for (Integer i : integers1) {
-//            for (Integer integer : integers2) {
-//                if (i == integer) {
-//                    commonElements.add(i);
-//                }
-//            }
-//        }
-//
-//        return commonElements;
-//    }
-
     List<Integer> getCommonElements(List<Integer> integers1, List<Integer> integers2) {
+        List<Integer> commonElements = new ArrayList<>(List.of());
+
+        for (Integer i : integers1) {
+            for (Integer integer : integers2) {
+                if (i == integer) {
+                    commonElements.add(i);
+                }
+            }
+        }
+
+        return commonElements;
+    }
+
+    List<Integer> getCommonElements1(List<Integer> integers1, List<Integer> integers2) {
         HashMap<Integer, Integer> integers1Map = new HashMap<>();
         HashMap<Integer, Integer> integers2Map = new HashMap<>();
 
@@ -371,18 +371,18 @@ public class MapPractice {
         int j = 0;
         for (Integer i : integers1) {
 
-            integers1Map.put(j,i);
+            integers1Map.put(j, i);
             j++;
         }
 
         j = 0;
         for (Integer i : integers2) {
-            integers2Map.put(j,i);
+            integers2Map.put(j, i);
             j++;
         }
 
         for (Integer value : integers1Map.values()) {
-            if (integers2Map.containsValue(value)){
+            if (integers2Map.containsValue(value)) {
                 commonElements.add(value);
             }
         }
@@ -390,11 +390,74 @@ public class MapPractice {
         return commonElements;
     }
 
+    List<Integer> getCommonElements2(List<Integer> integers1, List<Integer> integers2) {
 
+        List<Integer> commonElements = new ArrayList<>(List.of());
+
+        for (Integer integer : integers1) {
+            if (integers2.contains(integer)) {
+                commonElements.add(integer);
+            }
+        }
+
+        return commonElements;
+    }
+
+    List<Integer> getCommonElements3(List<Integer> integers1, List<Integer> integers2) {
+        HashMap<Integer, Boolean> intToBoolean = new HashMap<>();
+        for (Integer integer : integers2) {
+            intToBoolean.put(integer, true);
+        }
+        List<Integer> commonElements = new ArrayList<>(List.of());
+        for (Integer integer : integers1) {
+            if (intToBoolean.containsKey(integer)) {
+                commonElements.add(integer);
+            }
+        }
+        return commonElements;
+    }
 
     @Test
     void getCommonElementsTest() {
-        List<Integer> firstList = List.of(1, 2, 3);
+        List<Integer> firstList = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            firstList.add(i);
+        }
+        List<Integer> secondList = new ArrayList<>();
+        for (int i = 50000; i < 150000; i++) {
+            secondList.add(i);
+        }
+
+        long before = System.currentTimeMillis(); // 함수
+
+        List<Integer> commonElements = getCommonElements1(firstList, secondList);
+
+        long after = System.currentTimeMillis();
+
+        long before2 = System.currentTimeMillis(); // 함수
+
+        List<Integer> commonElements2 = getCommonElements2(firstList, secondList);
+
+        long after2 = System.currentTimeMillis();
+
+        long before3 = System.currentTimeMillis(); // 함수
+
+        List<Integer> commonElements3 = getCommonElements3(firstList, secondList);
+
+        long after3 = System.currentTimeMillis();
+
+
+        double secDiffTime = (after - before) / 1000.0;
+        System.out.println("secDiffTime(초) = " + secDiffTime);
+        double secDiffTime2 = (after2 - before2) / 1000.0;
+        System.out.println("secDiffTime(초) = " + secDiffTime2);
+        double secDiffTime3 = (after3 - before3) / 1000.0;
+        System.out.println("secDiffTime(초) = " + secDiffTime3);
+    }
+
+    @Test
+    void getCommonElementsTest2() {
+        List<Integer> firstList = List.of(1, 2, 3, 5);
         List<Integer> secondList = List.of(2, 3, 4);
 
         List<Integer> commonElements = getCommonElements(firstList, secondList);
@@ -403,21 +466,21 @@ public class MapPractice {
                 .containsExactlyInAnyOrder(2, 3);
     }
 
-    int myFrequency(ArrayList<String> names,String name){
+    int myFrequency(ArrayList<String> names, String name) {
         HashMap<String, Integer> duplicatenameMap = new HashMap<>();
 
         for (String str : names) {
-            duplicatenameMap.put(str,duplicatenameMap.getOrDefault(str,0)+1);
+            duplicatenameMap.put(str, duplicatenameMap.getOrDefault(str, 0) + 1);
         }
 
         return duplicatenameMap.get(name);
     }
 
-    HashMap<String,Integer> countNameOccurrences(List<String> names){
+    HashMap<String, Integer> countNameOccurrences(List<String> names) {
         HashMap<String, Integer> duplicatenameMap = new HashMap<>();
 
         for (String str : names) {
-            duplicatenameMap.put(str,duplicatenameMap.getOrDefault(str,0)+1);
+            duplicatenameMap.put(str, duplicatenameMap.getOrDefault(str, 0) + 1);
         }
 
         return duplicatenameMap;
@@ -493,20 +556,20 @@ public class MapPractice {
                 .containsEntry("허재", 1);
     }
 
-    List<List<Integer>> countDuplicateItems(List<Integer> items){
+    List<List<Integer>> countDuplicateItems(List<Integer> items) {
         HashMap<Integer, Integer> countDuplicateItemsMap = new HashMap<>();
 
         for (Integer item : items) {
-            countDuplicateItemsMap.put(item,countDuplicateItemsMap.getOrDefault(item,0)+1);
+            countDuplicateItemsMap.put(item, countDuplicateItemsMap.getOrDefault(item, 0) + 1);
         }
 
         List<List<Integer>> countDuplicateItems = new ArrayList<>(List.of());
 
         for (Map.Entry<Integer, Integer> integerIntegerEntry : countDuplicateItemsMap.entrySet()) {
-            countDuplicateItems.add(List.of(integerIntegerEntry.getKey(),integerIntegerEntry.getValue()));
+            countDuplicateItems.add(List.of(integerIntegerEntry.getKey(), integerIntegerEntry.getValue()));
         }
 
-        return  countDuplicateItems;
+        return countDuplicateItems;
     }
 
     @Test
@@ -522,23 +585,70 @@ public class MapPractice {
         HashMap<String, String> 강릉 = new HashMap<>();
         HashMap<String, String> 울산 = new HashMap<>();
 
-        제주.put("이름","제주");
-        제주.put("인구수","670837명");
+        제주.put("이름", "제주");
+        제주.put("인구수", "670837명");
 
-        강릉.put("이름","강릉");
-        강릉.put("인구수","207988명");
+        강릉.put("이름", "강릉");
+        강릉.put("인구수", "207988명");
 
-        울산.put("이름","울산");
-        울산.put("인구수","1098540명");
+        울산.put("이름", "울산");
+        울산.put("인구수", "1098540명");
 
-        List<HashMap<String,String>> 도시별정보 = new ArrayList<>(List.of(제주,강릉,울산));
+        List<HashMap<String, String>> 도시별정보 = new ArrayList<>(List.of(제주, 강릉, 울산));
         ArrayList<List<String>> 도시별인구수 = new ArrayList<>(List.of());
 
         for (HashMap<String, String> stringStringHashMap : 도시별정보) {
-            도시별인구수.add(List.of(stringStringHashMap.get("이름"),stringStringHashMap.get("인구수")));
+            도시별인구수.add(List.of(stringStringHashMap.get("이름"), stringStringHashMap.get("인구수")));
         }
 
         System.out.println(도시별인구수);
+    }
+
+    @Test
+    void lsitInList() {
+        ArrayList<String> 한국도시들 = new ArrayList<>();
+        한국도시들.add("제주");
+        한국도시들.add("강릉");
+        한국도시들.add("울산");
+
+        ArrayList<String> 미국도시들 = new ArrayList<>();
+        미국도시들.add("디트로이트");
+        미국도시들.add("스프링필드");
+        미국도시들.add("볼티모어");
+
+        ArrayList<String> 독일도시들 = new ArrayList<>();
+        독일도시들.add("프랑크푸르트");
+        독일도시들.add("함부르크");
+        독일도시들.add("브레멘");
+
+        HashMap<String, List<String>> 세계도시맵 = new HashMap<>();
+        세계도시맵.put("한국", 한국도시들);
+        세계도시맵.put("미국", 미국도시들);
+        세계도시맵.put("독일", 독일도시들);
+
+        HashMap<String, String> 나라별이모지 = new HashMap<>();
+        나라별이모지.put("한국", "🧡");
+        나라별이모지.put("미국", "💛");
+        나라별이모지.put("독일", "💚");
+
+        System.out.println(나라별도시표현(세계도시맵, 나라별이모지));
+
+    }
+
+    HashMap<String, List<String>> 나라별도시표현(HashMap<String, List<String>> 세계도시맵, HashMap<String, String> 나라별이모지) {
+        HashMap<String, List<String>> 나라별도시표현 = new HashMap<>();
+
+
+        for (Map.Entry<String, List<String>> entry : 세계도시맵.entrySet()) {
+            String 나라이름 = entry.getKey();
+            String 이모지 = 나라별이모지.get(나라이름);
+            List<String> 도시리스트 = entry.getValue();
+
+            for (int i = 0; i < 도시리스트.size(); i++) {
+                도시리스트.set(i, 이모지 + 도시리스트.get(i));
+            }
+        }
+        return 세계도시맵;
     }
 }
 
