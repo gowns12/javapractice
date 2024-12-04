@@ -130,35 +130,75 @@ public class StreamApi {
     }
 
     @Test
-    void sreamMap() {
-        HashMap<String, String> member = new HashMap<>();
+    void streamMap() {
+        Map<String, String> user1 = new HashMap<>();
+        user1.put("id", "dora");
+        user1.put("nickname", "도라에몽");
+        user1.put("password", "dora123");
 
-        member.put("ID", "아이디");
-        member.put("PASSWORD", "비밀번호");
-        member.put("NICKNAME", "닉네임");
+        Map<String, String> user2 = new HashMap<>();
+        user2.put("id", "njk");
+        user2.put("nickname", "진구");
+        user2.put("password", "jk123");//{}
 
-        List<HashMap<String, String>> memberInfo = new ArrayList<>();
+        Map<String, String> user3 = new HashMap<>();
+        user3.put("id", "bisil");
+        user3.put("nickname", "비실이");
+        user3.put("password", "bs123");
 
-        memberInfo.add(member);
+        ArrayList<Map<String, String>> users = new ArrayList<>();
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        List<Map<String, String>> newUsers = users.stream().map(m -> {
+            Map<String, String> newMap = new HashMap<>();
+            newMap.put("id", m.get("id"));
+            newMap.put("nickname", m.get("nickname"));
 
-        System.out.println(memberInfo.stream()
-                .map(h -> {
-                    HashMap<String, String> memberCopy = new HashMap<>(member);
-                    memberCopy.remove("PASSWORD");
-                    return memberCopy;
-                })
-                .toList());
-
-        System.out.println(memberInfo);
-
-        memberInfo = memberInfo.stream().map(h -> {
-            h.put("username", h.get("NICKNAME"));
-            h.remove("NICKNAME");
-            return h;
+            return newMap;
         }).toList();
 
-        System.out.println(memberInfo);
+
+        assertThat(newUsers.get(0).get("password")).isNull();
+        assertThat(newUsers.get(1).get("password")).isNull();
+        assertThat(newUsers.get(2).get("password")).isNull();
+
+        System.out.println(users);
     }
 
 
+    @Test
+    void map으로_키_변환() {
+        Map<String, String> user1 = new HashMap<>();
+        user1.put("id", "dora");
+        user1.put("nickname", "도라에몽");
+
+        Map<String, String> user2 = new HashMap<>();
+        user2.put("id", "njk");
+        user2.put("nickname", "진구");
+
+        Map<String, String> user3 = new HashMap<>();
+        user3.put("id", "bisil");
+        user3.put("nickname", "비실이");
+
+        ArrayList<Map<String, String>> users = new ArrayList<>();
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+
+        List<Map<String, String>> newUsers = users.stream()
+                .map(기존맵 -> {
+                    // 여기에 코드 입력
+                    Map<String, String> newMap = new HashMap<>();
+                    newMap.put("id",기존맵.get("id"));
+                    newMap.put("username",기존맵.get("nickname"));
+                    return newMap;
+                })
+                .toList();
+
+        // 아래 테스트를 통과해야 합니다
+        assertThat(newUsers.get(0).get("username")).isNotNull();
+        assertThat(newUsers.get(1).get("username")).isNotNull();
+        assertThat(newUsers.get(2).get("username")).isNotNull();
+    }
 }
