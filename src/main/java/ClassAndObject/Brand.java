@@ -1,5 +1,6 @@
 package ClassAndObject;
 
 public class Brand {
-    String name;
+    public String name;
+    public Category category;
 }
