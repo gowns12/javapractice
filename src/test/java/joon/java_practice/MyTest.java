@@ -1,11 +1,12 @@
 package joon.java_practice;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
@@ -364,5 +365,38 @@ public class MyTest {
         }
 
         System.out.println(광역시목록2);
+    }
+
+    public int 나머지가1(int n){
+        for (int i = 1; i < n; i++) {
+            if (n%i==1){
+                return i;
+            }
+        }
+        return 2;
+    }
+
+    @Test
+    void 나머지() {
+        assertThat(나머지가1(10)).isEqualTo(3);
+        assertThat(나머지가1(9)).isEqualTo(2);
+    }
+
+    @Test
+    void solution() {
+        String my_string = "ihrhbakrfpndopljhygc";
+        int m =4;
+        int c = 2;
+
+
+        assertThat(solution(my_string,m,c)).isEqualTo("happy");
+    }
+
+    public String solution(String my_string, int m, int c) {
+
+        return IntStream.rangeClosed(0,my_string.length())
+                .filter(i->i>0&&((i==(c))||(i-c)%(m)==0))
+                .mapToObj(i->String.valueOf(my_string.charAt(i-1)))
+                .collect(Collectors.joining());
     }
 }
